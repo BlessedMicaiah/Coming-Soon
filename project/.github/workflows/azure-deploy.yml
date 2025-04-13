@@ -17,34 +17,16 @@ jobs:
       with:
         node-version: '18.x'
         
-    - name: Install dependencies
-      run: |
-        cd project
-        npm ci
-      
-    - name: Build
-      run: |
-        cd project
-        npm run build
-        
-    - name: Prepare for deployment
-      run: |
-        # Create a deployment directory at the root level
-        mkdir -p deployment
-        # Copy the build output to the deployment directory
-        cp -r project/dist/* deployment/
-        
-    # Deploy to Azure Static Web Apps
-    # Note: The syntax ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }} is correct for GitHub Actions
-    # Your IDE might show warnings, but this is the proper way to access secrets in GitHub Actions
-    - name: Deploy to Azure Static Web Apps
-      id: deploy-to-azure-swa
+    - name: Build and Deploy
+      id: builddeploy
       uses: Azure/static-web-apps-deploy@v1
       with:
         azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         action: "upload"
-        app_location: "/" # Root of the repository
-        api_location: "" # Leave empty if no API
-        output_location: "deployment" # The directory containing the build output
-        skip_app_build: true # Skip the build since we've already built the app
+        # The location of your app code
+        app_location: "project"
+        # The location of your app build output
+        output_location: "dist"
+        # Skip the build process in the Azure Static Web Apps action
+        skip_app_build: false
