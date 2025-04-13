@@ -23,6 +23,29 @@ To set up GitHub Actions deployment:
    - `AZURE_WEBAPP_NAME`: The name of your Azure Web App
    - `AZURE_WEBAPP_PUBLISH_PROFILE`: The publish profile from your Azure Web App
 
+#### Setting up GitHub Secrets
+
+1. Go to your GitHub repository
+2. Click on "Settings" > "Secrets and variables" > "Actions"
+3. Click on "New repository secret"
+4. Add the following secrets:
+
+   **For AZURE_WEBAPP_NAME:**
+   - Name: `AZURE_WEBAPP_NAME`
+   - Value: The name of your Azure Web App (e.g., `my-react-app`)
+
+   **For AZURE_WEBAPP_PUBLISH_PROFILE:**
+   - Name: `AZURE_WEBAPP_PUBLISH_PROFILE`
+   - Value: The publish profile XML content from your Azure Web App
+   
+   To get the publish profile:
+   1. Go to your Azure Web App in the Azure Portal
+   2. Click on "Get publish profile" to download the XML file
+   3. Open the XML file in a text editor
+   4. Copy the entire content and paste it as the secret value
+
+> **Note:** The GitHub Actions workflow uses the syntax `${{ secrets.AZURE_WEBAPP_NAME }}` to access these secrets. This is the correct syntax for GitHub Actions, even if your IDE might show warnings.
+
 The workflow will automatically build and deploy your application when you push to the main branch.
 
 ### 2. Manual Deployment

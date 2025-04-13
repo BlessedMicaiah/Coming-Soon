@@ -23,6 +23,8 @@ jobs:
     - name: Build
       run: npm run build
       
+    # Note: The syntax ${{ secrets.SECRET_NAME }} is correct for GitHub Actions
+    # Your IDE might show warnings, but this is the proper way to access secrets in GitHub Actions
     - name: Deploy to Azure Web App
       id: deploy-to-azure
       uses: azure/webapps-deploy@v2
